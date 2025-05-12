@@ -1,0 +1,36 @@
+package Service;
+
+import Entity.Admin;
+import Repository.AdminRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+public class AdminService {
+    @Autowired
+    private AdminRepository adminRepository;
+
+    public List<Admin> getAllAdmin(){
+        return adminRepository.findAll();
+    }
+    public Admin getAdminById(Long id){
+        return adminRepository.findById(id).orElseThrow(() -> new RuntimeException("Admin não encontrado"));
+    }
+    public void updateAdmin(Admin admin, Long id){
+        adminRepository.findById(admin.getId()).orElseThrow(() -> new RuntimeException("Admin com Id"+ admin.getId()+" não foi encontrado."));
+        adminRepository.save(admin);
+    }
+    public void deleteAdmin(Long id){
+        adminRepository.findById(id).orElseThrow(() -> new RuntimeException("Admin com Id"+ id +" não foi encontrado."));
+        adminRepository.deleteById(id);
+    }
+    public boolean verifyCredentials(String email, String password){
+        Admin admin = adminRepository.findByEmail(email);
+        if(admin.getPassword() == password){
+            return true;
+        }
+        return false;
+    }
+}
