@@ -25,7 +25,7 @@ public class ProductService {
         productRepository.save(product);
     }
 
-    public void updateProduct(Product product, Long id){
+    public void updateProduct(Product product){
         productRepository.findById(product.getId()).orElseThrow(() -> new RuntimeException("Produto com Id"+ product.getId()+" não foi encontrado."));
         productRepository.save(product);
     }
@@ -33,6 +33,9 @@ public class ProductService {
     public void deleteProduct(Long id){
         productRepository.findById(id).orElseThrow(() -> new RuntimeException("Produto com Id"+ id +" não foi encontrado."));
         productRepository.deleteById(id);
+    }
+    public Product findProductByName(String name) {
+        return productRepository.findByName(name);
     }
 
 
